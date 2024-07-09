@@ -1,0 +1,63 @@
+spring:
+    application:
+        name: springboot_auth-api
+
+    messages:
+        basename: lang/res
+        fallback-to-system-locale: true
+
+    datasource:
+        password: ${DATASOURCE_PASSWORD}
+        driver-class-name: org.postgresql.Driver
+        url: ${DATASOURCE_URL}
+        username: ${DATASOURCE_USERNAME}
+
+    jpa:
+        properties:
+            hibernate:
+                format_sql: true
+                naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+                transaction:
+                    jta:
+                        platform: none
+        show-sql: true
+
+
+server:
+    port: 8080
+    error:
+        include-message: always
+        include-exception: true
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: dev
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        open-in-view: true
+
+server:
+    error:
+        include-stacktrace: always
+        include-binding-errors: always
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: prod
+
+    jpa:
+        hibernate:
+            ddl-auto: none
+        open-in-view: false
+
+server:
+    error:
+        include-stacktrace: never
